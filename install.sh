@@ -22,21 +22,16 @@ echo ">>> [1/6] Melakukan update package list..."
 apt-get update
 
 # 3. Install paket yang dibutuhkan (python venv)
-echo ">>> [2/6] Menginstall python3-venv..."
-apt-get install -y python3-venv python3-pip
+echo ">>> [2/6] Menginstall python3-Telegram-Bot..."
+sudo pip install python-telegram-bot --break-system-packages
 
-# 4. Membuat virtual environment
-echo ">>> [3/6] Menyiapkan Python virtual environment di $PROJECT_DIR..."
-cd "$PROJECT_DIR" || { echo "Error: Direktori $PROJECT_DIR tidak ditemukan."; exit 1; }
-python3 -m venv venv
-
-# 5. Menginstall dependencies dari requirements.txt
+# 4. Menginstall dependencies dari requirements.txt
 echo ">>> [4/6] Menginstall dependencies dari requirements.txt..."
 source venv/bin/activate
 pip install -r requirements.txt
 deactivate
 
-# 6. Membuat file layanan systemd
+# 5. Membuat file layanan systemd
 echo ">>> [5/6] Membuat file layanan systemd..."
 
 # Bagian ini adalah perbaikan utamanya.
@@ -49,7 +44,7 @@ After=network.target
 [Service]
 User=root
 WorkingDirectory=$PROJECT_DIR
-ExecStart=$PROJECT_DIR/venv/bin/python $PROJECT_DIR/bot/main.py
+ExecStart=/usr/bin/python3 /root/bot/main.py
 Restart=always
 RestartSec=5
 
